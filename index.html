@@ -24,8 +24,7 @@
 			position: absolute;
 		}
 	</style>
-<script src="https://cdn.jsdelivr.net/npm/ws@7.4.3/dist/ws.min.js"></script>
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Discord Bot Messages</title>
@@ -43,19 +42,34 @@
   <h1>Discord Bot Messages</h1>
   <div id="messages"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
   <script>
-    const webhookUrl = 'https://discordapp.com/api/webhooks/1239972364511477760/ZUUrkAsBGH760e3_JXNhG_Udo9MAGHyZBpi4Idfw8z9Pr7s5oEx-ncerCnhzDvJ0lfry';
-    const messagesContainer = document.getElementById('messages');
+    const apiUrl = 'http://localhost:3000/messages'; // adjust to your server URL
 
-    axios.post(webhookUrl, {
-      content: 'Hello from my website!'
-    });
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(messages => {
+        const messagesContainer = document.getElementById('messages');
+        messages.forEach((message, index) => {
+          const messageElement = document.createElement('div');
+          messageElement.className = 'message';
+          messageElement.textContent = message.content;
+
+          if (index > 0) {
+            messageElement.style.marginTop = '10px';
+          }
+
+          messagesContainer.appendChild(messageElement);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
 
     setInterval(() => {
-      axios.get(webhookUrl)
-        .then(response => {
-          const messages = response.data.messages;
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(messages => {
+          const messagesContainer = document.getElementById('messages');
           messagesContainer.innerHTML = '';
 
           messages.forEach((message, index) => {
