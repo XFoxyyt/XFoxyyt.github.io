@@ -24,8 +24,26 @@
 			position: absolute;
 		}
 	</style>
+	<!DOCTYPE html>
+<html>
+<head>
+  <title>Roblox Player Count</title>
 </head>
 <body>
-	<h1 class="header-text">Revival Admin Site</h1>
+  <h1>Roblox Player Count</h1>
+  <p id="player-count">Players online: <span></span></p>
+
+  <script>
+    const gameId = 245662005; // Replace with your Roblox game ID
+    fetch(`https://games.roblox.com/v1/games/${gameId}/servers`)
+      .then(response => response.json())
+      .then(data => {
+        const playerCount = data.data[0].playing;
+        document.getElementById('player-count').innerHTML = `Players online: ${playerCount}`;
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
 </body>
+</html>
+</head>
 </html>
