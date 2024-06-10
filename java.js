@@ -1,20 +1,20 @@
-const gameId = 17807010713; // Replace with your Roblox game ID
-const socket = new WebSocket(`wss://games.roblox.com/v1/games/${gameId}/servers`);
+const express = require('express');
+const app = express();
+const webhookUrl = 'https://discordapp.com/api/webhooks/1239972364511477760/ZUUrkAsBGH760e3_JXNhG_Udo9MAGHyZBpi4Idfw8z9Pr7s5oEx-ncerCnhzDvJ0lfry';
+const messages = [];
 
-socket.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  const playerCount = data.data[0].playing;
-  document.getElementById('player-count').innerHTML = `Players online: ${playerCount}`;
-};
+app.use(express.json());
 
-socket.onopen = () => {
-  console.log('Connected to Roblox API');
-};
+app.post('/discord-webhook', (req, res) => {
+  const message = req.body;
+  messages.push(message);
+  res.send(`Received message: ${message.content}`);
+});
 
-socket.onerror = (error) => {
-  console.error('Error:', error);
-};
+app.get('/messages', (req, res) => {
+  res.json(messages);
+});
 
-socket.onclose = () => {
-  console.log('Disconnected from Roblox API');
-};
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
