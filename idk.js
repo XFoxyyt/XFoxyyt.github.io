@@ -18,6 +18,8 @@ app.get('/getMessage', (req, res) => {
   res.send(playerJoinedMessage);
 });
 
+app.use(express.static('public')); // Serve static files from the 'public' directory
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
