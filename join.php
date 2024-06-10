@@ -8,3 +8,4 @@
   $newContent = $currentContent . "<p>$playerName has joined the game!</p>";
   file_put_contents($file, $newContent);
 ?>
+define( 'WP_DEBUG', true );
